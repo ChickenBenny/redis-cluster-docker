@@ -1,44 +1,70 @@
 version: '3'
 services:
   redis-master:
-    image: redis:7-alpine
+    container_name: "redis-master"
+    image: redis:6-alpine
+    command: redis-server /etc/redis.conf
+    volumes:
+      - "./redis/master/redis.conf:/etc/redis.conf"
     ports:
       - "6379:6379"
-  
-  redis-slave1:
-    image: redis:7-alpine
-    command: redis-server --slaveof redis-master 6379
+
+  redis-slave1: 
+    container_name: "redis-slave1"
+    image: redis:6-alpine
     ports:
       - "6380:6379"
+    command: redis-server /etc/redis.conf
+    volumes:
+      - "./redis/slave/redis.conf:/etc/redis.conf"
     depends_on:
       - redis-master
 
-  redis-slave2:
-    image: redis:7-alpine
-    command: redis-server --slaveof redis-master 6379
+  redis-slave2: 
+    container_name: "redis-slave2"
+    image: redis:6-alpine
     ports:
       - "6381:6379"
+    command: redis-server /etc/redis.conf
+    volumes:
+      - "./redis/slave/redis.conf:/etc/redis.conf"
     depends_on:
-      - redis-master:redis-master  
+      - redis-master 
 
   redis-sentinel1:
-    build: ./sentinel
-    links:
-      - redis-master
+    container_name: 'redis-sentinel1'
+    image: redis:6-alpine
+    ports:
+      - "5000:5000"
+    command: redis-server /etc/sentinel.conf --sentinel
+    volumes:
+      - "./sentinel1/sentinel.conf:/etc/sentinel.conf"
     depends_on:
       - redis-master
       - redis-slave1
       - redis-slave2
 
   redis-sentinel2:
-    build: ./sentinel
+    container_name: 'redis-sentinel2'
+    image: redis:6-alpine
+    ports:
+      - "5001:5000"
+    command: redis-server /etc/sentinel.conf --sentinel
+    volumes:
+      - "./sentinel2/sentinel.conf:/etc/sentinel.conf"
     depends_on:
       - redis-master
       - redis-slave1
       - redis-slave2
 
   redis-sentinel3:
-    build: ./sentinel
+    container_name: 'redis-sentinel3'
+    image: redis:6-alpine
+    ports:
+      - "5002:5000"
+    command: redis-server /etc/sentinel.conf --sentinel
+    volumes:
+      - "./sentinel3/sentinel.conf:/etc/sentinel.conf"
     depends_on:
       - redis-master
       - redis-slave1
