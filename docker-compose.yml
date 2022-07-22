@@ -1,0 +1,45 @@
+version: '3'
+services:
+  redis-master:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+  
+  redis-slave1:
+    image: redis:7-alpine
+    command: redis-server --slaveof redis-master 6379
+    ports:
+      - "6380:6379"
+    depends_on:
+      - redis-master
+
+  redis-slave2:
+    image: redis:7-alpine
+    command: redis-server --slaveof redis-master 6379
+    ports:
+      - "6381:6379"
+    depends_on:
+      - redis-master:redis-master  
+
+  redis-sentinel1:
+    build: ./sentinel
+    links:
+      - redis-master
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
+
+  redis-sentinel2:
+    build: ./sentinel
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
+
+  redis-sentinel3:
+    build: ./sentinel
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
