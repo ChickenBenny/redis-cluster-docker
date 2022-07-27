@@ -4,8 +4,6 @@ services:
     container_name: "redis-master"
     image: redis:6.0-alpine
     command: redis-server 
-    # volumes:
-    #   - "./master/redis.conf:/etc/redis.conf"
     ports:
       - "6379:6379"
 
@@ -15,8 +13,6 @@ services:
     ports:
       - "6380:6379"
     command: redis-server --slaveof redis-master 6379
-    # volumes:
-    #   - "./slave/redis.conf:/etc/redis.conf" 
 
   redis-slave2: 
     container_name: "redis-slave2"
@@ -24,8 +20,6 @@ services:
     ports:
       - "6381:6379"
     command: redis-server --slaveof redis-master 6379
-    # volumes:
-    #   - "./slave/redis.conf:/etc/redis.conf"
 
   redis-sentinel1:
     container_name: 'redis-sentinel1'
