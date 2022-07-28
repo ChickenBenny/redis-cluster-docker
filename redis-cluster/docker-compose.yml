@@ -70,3 +70,5 @@ services:
       - "./redis/redis.conf:/etc/redis.conf"  
       command: redis-server /etc/redis.conf --port 7005
       network_mode: "host"
+
+    
