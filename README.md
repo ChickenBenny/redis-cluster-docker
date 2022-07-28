@@ -3,10 +3,10 @@ This repo is try to build the different structure of redis, and will contain mas
 
 All the database system will be deploy by docker.
 
-###The detail tutorial we can find in my medium article:
+### The detail tutorial we can find in my medium article:
 https://medium.com/@ChickenBenny/redis-cluster-and-sentinel-with-docker-from-zero-to-hero-part-iv-63ba9d196cc3
 
-###Series of redis tutorial:
+### Series of redis tutorial:
 1. Redis introduction : https://medium.com/@ChickenBenny/redis-introduction-from-zero-to-hero-part-i-7c13e63170f5
 2. Redis persistence and CAP theorem : https://medium.com/@ChickenBenny/redis-persistence-and-cap-theorem-from-zero-to-hero-part-ii-91eaedf58d79
 3. Redis cluster and sentinel with docker : https://medium.com/@ChickenBenny/redis-cluster-and-sentinel-with-docker-from-zero-to-hero-part-iv-63ba9d196cc3
