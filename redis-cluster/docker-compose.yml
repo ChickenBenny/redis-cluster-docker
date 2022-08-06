@@ -3,65 +3,72 @@ services:
   redis-1:
     container_name: "redis-1"
     image: redis:6.0-alpine
-    ports: 
-      - 7000:7000 
-      - 17000:17000
+    ports:
+      - 7001:7001
+      - 17001:17001
     volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7000
-    network_mode: "host"
+      - "./7001/conf/redis.conf:/etc/redis.conf"
+    command: 
+      - sh
+      - -c
+      - redis-server /etc/redis.conf --daemonize yes &
+        echo "yes" | 
+        redis-cli -h 172.21.47.64 -p 7001 
+        --cluster create 172.21.47.64:7001 172.21.47.64:7002 172.21.47.64:7003 172.21.47.64:7004 172.21.47.64:7005 172.21.47.64:7006 
+        --cluster-replicas 1 & tail -f
+    depends_on:
+      - redis-2
+      - redis-3
+      - redis-4
+      - redis-5
+      - redis-6
 
   redis-2:
     container_name: "redis-2"
     image: redis:6.0-alpine
-    ports: 
-      - 7001:7001 
-      - 17001:17001
+    ports:
+      - 7002:7002
+      - 17002:17002
     volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7001 
-    network_mode: "host"
- 
+      - "./7002/conf/redis.conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
   redis-3:
     container_name: "redis-3"
     image: redis:6.0-alpine
-    ports: 
-      - 7002:7002 
-      - 17002:17002
-    volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7002
-    network_mode: "host"
-  
-  redis-4:
-    container_name: "redis-4"
-    image: redis:6.0-alpine
-    ports: 
+    ports:
       - 7003:7003
       - 17003:17003
     volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7003
-    network_mode: "host"
+      - "./7003/conf/redis.conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
+
+  redis-4:
+    container_name: "redis-4"
+    image: redis:6.0-alpine
+    ports:
+      - 7004:7004
+      - 17004:17004
+    volumes:
+      - "./7004/conf/redis.conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
 
   redis-5:
     container_name: "redis-5"
     image: redis:6.0-alpine
-    ports: 
-      - 7004:7004 
-      - 17004:17004
+    ports:
+      - 7005:7005
+      - 17005:17005
     volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7004
-    network_mode: "host"
+      - "./7005/conf/redis.conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
 
   redis-6:
     container_name: "redis-6"
     image: redis:6.0-alpine
-    ports: 
-      - 7005:7005 
-      - 17005:17005
+    ports:
+      - 7006:7006
+      - 17006:17006
     volumes:
-    - "./redis/redis.conf:/etc/redis.conf"  
-    command: redis-server /etc/redis.conf --port 7005
-    network_mode: "host"  
+      - "./7006/conf/redis.conf:/etc/redis.conf"
+    command: redis-server /etc/redis.conf
