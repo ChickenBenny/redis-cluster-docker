@@ -13,8 +13,8 @@ services:
       - -c
       - redis-server /etc/redis.conf --daemonize yes &
         echo "yes" | 
-        redis-cli -h 172.21.47.64 -p 7001 
-        --cluster create 172.21.47.64:7001 172.21.47.64:7002 172.21.47.64:7003 172.21.47.64:7004 172.21.47.64:7005 172.21.47.64:7006 
+        redis-cli -h ${IP} -p 7001 
+        --cluster create ${IP}:7001 ${IP}:7002 ${IP}:7003 ${IP}:7004 ${IP}:7005 ${IP}:7006 
         --cluster-replicas 1 & tail -f
     depends_on:
       - redis-2
